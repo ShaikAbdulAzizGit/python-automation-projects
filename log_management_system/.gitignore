@@ -1,0 +1,6 @@
+logs/
+archives/
+reports/
+notifications/
+*.log
+_pycache_/
