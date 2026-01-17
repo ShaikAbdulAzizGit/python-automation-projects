@@ -3,4 +3,5 @@ archives/
 reports/
 notifications/
 *.log
-_pycache_/
+__pycache__/
+unit_test.py
