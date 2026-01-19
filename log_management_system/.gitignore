@@ -4,3 +4,4 @@ reports/
 notifications/
 *.log
 __pycache__/
+test.py

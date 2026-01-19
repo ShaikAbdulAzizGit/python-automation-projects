@@ -4,26 +4,30 @@ from report_generator import generate_report
 from archiver import archive_logs
 from notifier import notify
 from pathlib import Path
-
+from config_loader import load_config
 
 BASE_DIR=Path(__file__).resolve().parent.parent
-
-LOG_DIR=Path(BASE_DIR,'logs')
-REPORT_DIR=Path(BASE_DIR,'reports')
-ARCHIVE_DIR=Path(BASE_DIR,'archives')
-NOTIFY_DIR=Path(BASE_DIR,'notifications')
+CONFIG_PATH=BASE_DIR/'config'/'config.ini'
 
 def main():
     try:
-        # Stage 1: Scan logs
+        # Stage 1: Load config 
+        config_data=load_config(CONFIG_PATH)
+
+        LOG_DIR=BASE_DIR/config_data['log_dir']
+        REPORT_DIR=BASE_DIR/config_data['report_dir']
+        ARCHIVE_DIR=BASE_DIR/config_data['archive_dir']
+        NOTIFY_DIR=BASE_DIR/config_data['notify_dir']
+
+        # Stage 2: Scan logs
         log_file_paths=scan_log_files(LOG_DIR)
-        # Stage 2: Analyze logs
+        # Stage 3: Analyze logs
         log_level_counts=analyze_logs(log_file_paths)
-        # Stage 3: Generate report
+        # Stage 4: Generate report
         report_file_path=generate_report(log_level_counts,REPORT_DIR)
-        # Stage 4: Archive logs
+        # Stage 5: Archive logs
         archived_file_paths=archive_logs(log_file_paths,ARCHIVE_DIR)
-        # Stage 5: Notify Success
+        # Stage 6: Notify Success
         meta_data={
             'log_files_processed':len(log_file_paths),
             'archived_files':len(archived_file_paths),
