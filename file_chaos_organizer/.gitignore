@@ -11,4 +11,6 @@ reports/
 .DB_Store
 Thumbs.db 
 
+state/
+
 unit_test.py
